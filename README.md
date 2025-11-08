@@ -69,6 +69,8 @@ python -m fastapi dev src/main.py
 
 ### 5️⃣ Importar base de datos
 Actualmente la conexión ya se establece a una base de datos en postgres, no se requiere configuración local
+
+en caso de error por conexión puede deberse que la base de datos esta apagada, contactar con los integrantes del equipo para poder levantar el servicio de base de datos
 **DEPRECADO**
 Desde el motor de postgres o cualquier adminsitrador de base de datos postgres importar el backup llamado proyetco_ia_bd el cual contiene la información de la base de datos, esquemas y tablas requeridas para la ejecución del codigo
 
