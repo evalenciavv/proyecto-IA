@@ -1,12 +1,7 @@
+# src/main.py
 from fastapi import FastAPI
+from src.routers.usuario_routers import router as usuario_router
 
-app = FastAPI()
+app = FastAPI(title="API Usuarios")
 
-@app.get("/dev")
-def read_cv():
-    message =  "Hello this is my first app in FastApi"
-    return {message}
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+app.include_router(usuario_router)

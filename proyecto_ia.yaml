@@ -1,0 +1,219 @@
+openapi: 3.0.3
+info:
+  title: API Usuarios
+  version: 0.1.0
+paths:
+  /usuarios/:
+    get:
+      tags:
+        - Usuarios
+      summary: Listar Usuarios
+      operationId: listar_usuarios_usuarios__get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: '#/components/schemas/UsuarioResponse'
+                type: array
+                title: Response Listar Usuarios Usuarios  Get
+    post:
+      tags:
+        - Usuarios
+      summary: Crear Usuario
+      operationId: crear_usuario_usuarios__post
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioCreate'
+        required: true
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /usuarios/{usuario_id}:
+    get:
+      tags:
+        - Usuarios
+      summary: Obtener Usuario
+      operationId: obtener_usuario_usuarios__usuario_id__get
+      parameters:
+        - name: usuario_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            title: Usuario Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      tags:
+        - Usuarios
+      summary: Actualizar Usuario
+      operationId: actualizar_usuario_usuarios__usuario_id__put
+      parameters:
+        - name: usuario_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            title: Usuario Id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UsuarioUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UsuarioResponse'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      tags:
+        - Usuarios
+      summary: Eliminar Usuario
+      operationId: eliminar_usuario_usuarios__usuario_id__delete
+      parameters:
+        - name: usuario_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+            title: Usuario Id
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    UsuarioCreate:
+      properties:
+        nombre:
+          type: string
+          title: Nombre
+        correo:
+          type: string
+          format: email
+          title: Correo
+        contrasena:
+          type: string
+          title: Contrasena
+      type: object
+      required:
+        - nombre
+        - correo
+        - contrasena
+      title: UsuarioCreate
+    UsuarioResponse:
+      properties:
+        nombre:
+          type: string
+          title: Nombre
+        correo:
+          type: string
+          format: email
+          title: Correo
+        id:
+          type: string
+          format: uuid
+          title: Id
+        estado:
+          type: boolean
+          title: Estado
+      type: object
+      required:
+        - nombre
+        - correo
+        - id
+        - estado
+      title: UsuarioResponse
+    UsuarioUpdate:
+      properties:
+        nombre:
+          anyOf:
+            - type: string
+          title: Nombre
+        correo:
+          anyOf:
+            - type: string
+              format: email
+          title: Correo
+        estado:
+          anyOf:
+            - type: boolean
+          title: Estado
+      type: object
+      title: UsuarioUpdate
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+              - type: string
+              - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+      type: object
+      required:
+        - loc
+        - msg
+        - type
+      title: ValidationError
